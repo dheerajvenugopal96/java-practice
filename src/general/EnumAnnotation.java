@@ -1,4 +1,6 @@
-package dsa.bin.general;
+package dsa.src.general;
+
+import dsa.src.general.Phones;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

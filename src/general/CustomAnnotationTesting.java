@@ -1,4 +1,4 @@
-package dsa.bin.general;
+package dsa.src.general;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package dsa.bin.general;
+package dsa.src.general;
 
 public enum Phones {
 
