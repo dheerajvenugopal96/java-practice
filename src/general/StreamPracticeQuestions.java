@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -137,6 +138,21 @@ class EvenOddCollector implements Collector<Integer, Map<Boolean,List<Integer>>,
 	
 }
 
+class FibonacciSequence implements Supplier<Long>{
+
+	private long previous = 0;
+	private long current = 1;
+	
+	@Override
+	public Long get() {
+		long next = previous + current;
+		previous = current;
+		current = next;
+		return previous;
+	}
+	
+}
+
 public class StreamPracticeQuestions {
 
 	public static void main(String[] args) {
@@ -165,10 +181,46 @@ public class StreamPracticeQuestions {
 //		findingPatterns();
 //		customSorting();
 //		reducingWithCustomCombiner();
-		firstNonRepeatedCharacter();
+//		firstNonRepeatedCharacter();
+//		findMaxOccurance();
+//		fibonacciUsingStreamsUsingSupplierSyntax();
+		fibonacciStreamsUsingStreamIterator();
 	}
 	
 	
+
+	private static void fibonacciStreamsUsingStreamIterator() {
+
+		Stream<Long> iterate = Stream.iterate(new long[] {1,1},n-> new long[] {n[1],n[0]+n[1]}).map(n->n[0]);
+		Stream.iterate(1,n -> (n-1)+(n+1)).limit(10).forEach(System.out::print);
+//		iterate.limit(10).forEach(System.out::print);
+		
+	}
+
+
+
+	private static void fibonacciUsingStreamsUsingSupplierSyntax() {
+		
+		Stream<Long> fibStream = Stream.generate(new FibonacciSequence());
+		
+		fibStream.limit(10).forEach(System.out::print);
+		
+	}
+
+
+
+	private static void findMaxOccurance() {
+		String str = "ABBABACDABDCAA";
+		
+		Optional<Entry<Character, Long>> collect = str.chars().mapToObj(x -> (char) x)
+				.collect(Collectors.groupingBy(y -> y, Collectors.counting())).entrySet().stream()
+				.collect(Collectors.maxBy(Comparator.comparingLong(x -> x.getValue())));
+
+		System.out.println(collect.get());
+		
+	}
+
+
 
 	private static void firstNonRepeatedCharacter() {
 		String s = "Java language Alive is Awesome";
